@@ -1,6 +1,6 @@
 # namer_app
 
-A new Flutter project.
+A first project in Flutter for learning Dart and app development. My first GitHub repo to learn the basics of version control. 
 
 ## Getting Started
 
