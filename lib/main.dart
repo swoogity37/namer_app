@@ -32,7 +32,21 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+ 
+
+List<WordPair> favorites = <WordPair>[];
+
+ String getFavs(){
+    if(favorites.isEmpty){
+    return 'no favorites';
+    } 
+
+    return favorites
+      .map((wp) => wp.asLowerCase)
+      .join('. ');
+ }
+
+    
 
   void toggleFavorites(){
     if (favorites.contains(current)){
@@ -101,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
 
 class GeneratorPage extends StatelessWidget {
   @override
