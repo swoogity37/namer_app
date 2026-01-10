@@ -2,6 +2,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -27,31 +28,25 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 
-  void getNext(){
+  void getNext() {
     current = WordPair.random();
     notifyListeners();
   }
 
- 
+  List<WordPair> favorites = <WordPair>[];
 
-List<WordPair> favorites = <WordPair>[];
+  String getFavs() {
+    if (favorites.isEmpty) {
+      return 'no favorites';
+    }
 
- String getFavs(){
-    if(favorites.isEmpty){
-    return 'no favorites';
-    } 
+    return favorites.map((wp) => wp.asLowerCase).join('. ');
+  }
 
-    return favorites
-      .map((wp) => wp.asLowerCase)
-      .join('. ');
- }
-
-    
-
-  void toggleFavorites(){
-    if (favorites.contains(current)){
+  void toggleFavorites() {
+    if (favorites.contains(current)) {
       favorites.remove(current);
-    } else{
+    } else {
       favorites.add(current);
     }
     notifyListeners();
@@ -64,12 +59,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-
     Widget page;
     switch (selectedIndex) {
       case 0:
@@ -116,31 +109,31 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class FavoritesPage extends StatelessWidget{
+class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     var appState = context.watch<MyAppState>();
 
     if (appState.favorites.isEmpty) {
-      return Center(child: Text("No Favorites yet"),);
+      return Center(child: Text("No Favorites yet"));
     }
 
     return ListView(
       children: [
         Padding(
           padding: const EdgeInsets.all(20),
-          child : Text ('You have ' '${appState.favorites.length} favorites:')
+          child: Text(
+            'You have '
+            '${appState.favorites.length} favorites:',
           ),
-          for (var pair in appState.favorites)
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text(pair.asLowerCase),
-            )],
+        ),
+        for (var pair in appState.favorites)
+          ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text(pair.asLowerCase),
+          ),
+      ],
     );
-    
-    
-
   }
 }
 
@@ -188,18 +181,13 @@ class GeneratorPage extends StatelessWidget {
   }
 }
 
-
 class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
+  const BigCard({super.key, required this.pair});
 
   final WordPair pair;
 
   @override
   Widget build(BuildContext context) {
-
     var theme = Theme.of(context);
     var stlye = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
@@ -212,7 +200,8 @@ class BigCard extends StatelessWidget {
         child: Text(
           pair.asLowerCase,
           style: stlye,
-          semanticsLabel: pair.asPascalCase,),
+          semanticsLabel: pair.asPascalCase,
+        ),
       ),
     );
   }
